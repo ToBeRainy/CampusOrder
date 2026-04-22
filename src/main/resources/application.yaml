@@ -1,11 +1,11 @@
-server:
+﻿server:
   port: 8081
 spring:
   application:
-    name: hmdp
+    name: campusOrder
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/hmdp?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://127.0.0.1:3306/campus_order?useSSL=false&serverTimezone=UTC
     username: root
     password: 123
   redis:
@@ -19,11 +19,26 @@ spring:
         min-idle: 1
         time-between-eviction-runs: 10s
   jackson:
-    default-property-inclusion: non_null # JSON处理时忽略非空字段
+    default-property-inclusion: non_null # JSON澶勭悊鏃跺拷鐣ラ潪绌哄瓧娈?
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: 1
+    consumer:
+      group-id: campus-order-group
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 mybatis-plus:
-  type-aliases-package: com.hmdp.entity # 别名扫描包
+  type-aliases-package: com.campusOrder.entity # 鍒悕鎵弿鍖?
 logging:
   level:
-    com.hmdp: debug
+    com.campusOrder: debug
   pattern:
     dateformat: mm:ss.SSS
+
+campus-order:
+  kafka:
+    order-create-topic: campus-order-create
